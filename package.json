@@ -4,7 +4,7 @@
   "version": "0.5.1",
   "unity": "2022.1",
   "author": "Denis Puzik",
-  "description": "Unity Sound Flow System",
+  "description": "Unity Sound Flow System. Attention, works only with Unitask and Odin Inspector",
   "dependencies": {
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
     "sirenix.odinInspector": "https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041"
