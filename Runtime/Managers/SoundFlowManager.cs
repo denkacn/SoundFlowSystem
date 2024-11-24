@@ -43,18 +43,18 @@ namespace SoundFlowSystem.Managers
             _isInitialized = true;
         }
 
-        public PlayProcessData Play(string soundKey, AudioSource audioSource = null, Action onFinished = null)
+        public PlayProcessData Play(string soundKey, AudioSource audioSource = null, Action onFinished = null, bool isOverwriteSettings = true)
         {
             if (!_isInitialized) return null;
             
-            return PlayIt(soundKey, Vector3.zero, audioSource, onFinished);
+            return PlayIt(soundKey, Vector3.zero, audioSource, onFinished, isOverwriteSettings);
         }
 
-        public PlayProcessData PlayInPosition(string soundKey, Vector3 position, AudioSource audioSource = null, Action onFinished = null)
+        public PlayProcessData PlayInPosition(string soundKey, Vector3 position, AudioSource audioSource = null, Action onFinished = null, bool isOverwriteSettings = true)
         {
             if (!_isInitialized) return null;
             
-            return PlayIt(soundKey, position, audioSource, onFinished);
+            return PlayIt(soundKey, position, audioSource, onFinished, isOverwriteSettings);
         }
 
         public void Stop(string playProcessId)
@@ -81,7 +81,7 @@ namespace SoundFlowSystem.Managers
             _networkAudioSynchronizer.PlayNetwork(soundKey, position);
         }
 
-        private PlayProcessData PlayIt(string soundKey, Vector3 position, AudioSource audioSource, Action onFinished)
+        private PlayProcessData PlayIt(string soundKey, Vector3 position, AudioSource audioSource, Action onFinished, bool isOverwriteSettings)
         {
             var soundData = GetSoundData(soundKey);
             if (soundData == null)
@@ -108,7 +108,7 @@ namespace SoundFlowSystem.Managers
             
             audioSource.clip = GetClip(soundData);
 
-            PreparingAudioSource(audioSource, soundData);
+            if (isOverwriteSettings) PreparingAudioSource(audioSource, soundData);
             
             if(soundData.Delay == 0) 
                 audioSource.Play();
