@@ -8,6 +8,6 @@ namespace SoundFlowSystem.Settings
     {
         public SoundsCollection[] SoundsCollections;
         public AudioSource BaseAudioSource;
-        [SerializeReference] public INetworkAudioSynchronizer NetworkSynchronizer;
+        public BaseNetworkAudioSynchronizer NetworkSynchronizer;
     }
 }

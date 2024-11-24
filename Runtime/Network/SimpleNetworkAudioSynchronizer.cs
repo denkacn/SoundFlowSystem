@@ -1,12 +1,9 @@
-using SoundFlowSystem.Managers;
 using UnityEngine;
 
 namespace SoundFlowSystem.Network
 {
-    public class SimpleNetworkAudioSynchronizer : INetworkAudioSynchronizer
+    public class SimpleNetworkAudioSynchronizer : BaseNetworkAudioSynchronizer
     {
-        public void Init(ISoundFlowManager soundFlowManager){}
-
-        public void PlayNetwork(string soundKey, Vector3 inPosition){}
+        public override void PlayNetwork(string soundKey, Vector3 inPosition){}
     }
 }

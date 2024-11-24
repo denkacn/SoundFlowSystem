@@ -16,7 +16,7 @@ namespace SoundFlowSystem.Managers
         private readonly List<IAudioSourcePool> _audioSourcePools = new List<IAudioSourcePool>();
         private readonly Dictionary<string, SoundData> _soundsLibrary = new Dictionary<string, SoundData>();
         private readonly bool _isInitialized = false;
-        private readonly INetworkAudioSynchronizer _networkAudioSynchronizer;
+        private readonly BaseNetworkAudioSynchronizer _networkAudioSynchronizer;
         private readonly IRulesFactory _rulesFactory;
         
         public SoundFlowManager(SoundFlowManagerSettings soundFlowManagerSettings)
