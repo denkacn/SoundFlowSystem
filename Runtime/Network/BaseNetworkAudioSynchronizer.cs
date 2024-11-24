@@ -7,7 +7,7 @@ namespace SoundFlowSystem.Network
     {
         protected ISoundFlowManager _soundFlowManager;
 
-        public void Init(ISoundFlowManager soundFlowManager)
+        public virtual void Init(ISoundFlowManager soundFlowManager)
         {
             _soundFlowManager = soundFlowManager;
         }
