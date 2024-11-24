@@ -1,7 +1,7 @@
 {
   "name": "com.puzikgames.soundflowsystem",
   "displayName": "Sound Flow System",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "unity": "2022.1",
   "author": "Denis Puzik",
   "description": "Unity Sound Flow System. Attention!!! Works only with Unitask and Odin Inspector",
