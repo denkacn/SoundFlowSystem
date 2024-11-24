@@ -18,23 +18,32 @@ namespace SoundFlowSystem.Pools
         {
             _audioSourcePrefab = audioSourcePrefab;
 
-            for (var i = 0; i < InitialSize; i++) CreateAudioSource();
+            for (var i = 0; i < InitialSize; i++) CreateAudioSourceInPool();
         }
 
         public AudioSource Get()
         {
             var availableSource = _audioSources.FirstOrDefault(source => !source.isPlaying);
-            return availableSource ?? CreateAudioSource();
+            return availableSource ?? CreateAudioSourceInPool();
         }
-
-        private AudioSource CreateAudioSource()
+        
+        public AudioSource CreateAudioSource()
         {
             var audioSource = GameObject.Instantiate(_audioSourcePrefab, null);
             audioSource.gameObject.name = $"{_audioSourcePrefab.name}_Pooled";
+            
+            return audioSource;
+        }
+
+        private AudioSource CreateAudioSourceInPool()
+        {
+            var audioSource = CreateAudioSource();
             
             _audioSources.Add(audioSource);
 
             return audioSource;
         }
+        
+        
     }
 }

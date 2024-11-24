@@ -29,7 +29,7 @@ namespace SoundFlowSystem.Libraries
             
             File.WriteAllText(Application.dataPath + path + "SoundsCollectionConstants.cs", sb.ToString());
         }
-        // /Pray4Us/Scripts/App/SoundFlowSystem/Libraries/
+
         private static string ConvertToPascalCase(string input)
         {
             var parts = input.Split('_');

@@ -6,5 +6,6 @@ namespace SoundFlowSystem.Pools
     {
         string Id { get; }
         AudioSource Get();
+        AudioSource CreateAudioSource();
     }
 }

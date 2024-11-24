@@ -61,16 +61,16 @@ namespace SoundFlowSystem.Managers
         {
             if (_playProcesses.TryGetValue(playProcessId, out var playProcessData))
             {
-                Stop(playProcessData);
+                StopIt(playProcessData);
             }
         }
 
-        private void Stop(PlayProcessData playProcessData)
+        public AudioSource Create()
         {
-            playProcessData.AudioSource.Stop();
-            _playProcesses.Remove(playProcessData.Id);
+            var pool = _audioSourcePools.Find(p => p.Id == SoundFlowConstantsData.DefaultPoolId);
+            return pool.CreateAudioSource();
         }
-
+        
         public void PlayNetwork(string soundKey)
         {
             _networkAudioSynchronizer.PlayNetwork(soundKey, Vector3.zero);
@@ -122,6 +122,12 @@ namespace SoundFlowSystem.Managers
             return playProcessData;
         }
 
+        private void StopIt(PlayProcessData playProcessData)
+        {
+            playProcessData.AudioSource.Stop();
+            _playProcesses.Remove(playProcessData.Id);
+        }
+        
         private void PreparingAudioSource(AudioSource audioSource, SoundData soundData)
         {
             audioSource.volume = soundData.Vloume;
