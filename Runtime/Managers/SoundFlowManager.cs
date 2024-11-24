@@ -134,6 +134,9 @@ namespace SoundFlowSystem.Managers
             audioSource.loop = soundData.IsLoop;
             audioSource.outputAudioMixerGroup = soundData.Group;
             audioSource.spatialBlend = soundData.SpatialBlend;
+            audioSource.dopplerLevel = soundData.DopplerLevel;
+            audioSource.spread = soundData.Spread;
+            audioSource.rolloffMode = soundData.RolloffMode;
             audioSource.minDistance = soundData.MinDistance;
             audioSource.maxDistance = soundData.MaxDistance;
         }

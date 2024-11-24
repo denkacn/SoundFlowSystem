@@ -26,9 +26,15 @@ namespace SoundFlowSystem.Data
         [FoldoutGroup("Settings")] [Range(0f, 1f)] public float SpatialBlend = 1f;
         
         [ShowIf("@this.SpatialBlend > 0")]
-        [FoldoutGroup("Settings")] public float MinDistance = 1f;
+        [FoldoutGroup("3D")] [Range(0f, 5f)] public float DopplerLevel  = 1f;
         [ShowIf("@this.SpatialBlend > 0")]
-        [FoldoutGroup("Settings")] public float MaxDistance = 5f;
+        [FoldoutGroup("3D")] [Range(0, 360)] public int Spread = 0;
+        [ShowIf("@this.SpatialBlend > 0")]
+        [FoldoutGroup("3D")] public AudioRolloffMode RolloffMode = AudioRolloffMode.Linear;
+        [ShowIf("@this.SpatialBlend > 0")]
+        [FoldoutGroup("3D")] public float MinDistance = 1f;
+        [ShowIf("@this.SpatialBlend > 0")]
+        [FoldoutGroup("3D")] public float MaxDistance = 5f;
 
         [SerializeReference] public IPlayCondition[] Conditions;
     }
