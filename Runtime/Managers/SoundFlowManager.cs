@@ -15,6 +15,7 @@ namespace SoundFlowSystem.Managers
     {
         private readonly List<IAudioSourcePool> _audioSourcePools = new List<IAudioSourcePool>();
         private readonly Dictionary<string, SoundData> _soundsLibrary = new Dictionary<string, SoundData>();
+        private readonly Dictionary<string, PlayProcessData> _playProcesses = new Dictionary<string, PlayProcessData>();
         private readonly bool _isInitialized = false;
         private readonly BaseNetworkAudioSynchronizer _networkAudioSynchronizer;
         private readonly IRulesFactory _rulesFactory;
@@ -42,18 +43,32 @@ namespace SoundFlowSystem.Managers
             _isInitialized = true;
         }
 
-        public void Play(string soundKey, AudioSource audioSource = null, Action onFinished = null)
+        public PlayProcessData Play(string soundKey, AudioSource audioSource = null, Action onFinished = null)
         {
-            if (!_isInitialized) return;
+            if (!_isInitialized) return null;
             
-            PlayIt(soundKey, Vector3.zero, audioSource, onFinished);
+            return PlayIt(soundKey, Vector3.zero, audioSource, onFinished);
         }
 
-        public void PlayInPosition(string soundKey, Vector3 position, AudioSource audioSource = null, Action onFinished = null)
+        public PlayProcessData PlayInPosition(string soundKey, Vector3 position, AudioSource audioSource = null, Action onFinished = null)
         {
-            if (!_isInitialized) return;
+            if (!_isInitialized) return null;
             
-            PlayIt(soundKey, position, audioSource, onFinished);
+            return PlayIt(soundKey, position, audioSource, onFinished);
+        }
+
+        public void Stop(string playProcessId)
+        {
+            if (_playProcesses.TryGetValue(playProcessId, out var playProcessData))
+            {
+                Stop(playProcessData);
+            }
+        }
+
+        private void Stop(PlayProcessData playProcessData)
+        {
+            playProcessData.AudioSource.Stop();
+            _playProcesses.Remove(playProcessData.Id);
         }
 
         public void PlayNetwork(string soundKey)
@@ -66,22 +81,22 @@ namespace SoundFlowSystem.Managers
             _networkAudioSynchronizer.PlayNetwork(soundKey, position);
         }
 
-        private void PlayIt(string soundKey, Vector3 position, AudioSource audioSource, Action onFinished)
+        private PlayProcessData PlayIt(string soundKey, Vector3 position, AudioSource audioSource, Action onFinished)
         {
             var soundData = GetSoundData(soundKey);
             if (soundData == null)
             {
                 Debug.LogError("[SoundFlowManager] PlayIt Not fount soundKey: " + soundKey);
-                return;
+                return null;
             }
 
             if (soundData.Clips.Length == 0)
             {
                 Debug.LogError("[SoundFlowManager] PlayIt soundData.Clips Is Empty");
-                return;
+                return null;
             }
 
-            if (!CheckPlayRules(soundData)) return;
+            if (!CheckPlayRules(soundData)) return null;
 
             if (audioSource == null)
             {
@@ -90,7 +105,7 @@ namespace SoundFlowSystem.Managers
             }
 
             audioSource.transform.position = position;
-
+            
             audioSource.clip = GetClip(soundData);
 
             PreparingAudioSource(audioSource, soundData);
@@ -99,8 +114,12 @@ namespace SoundFlowSystem.Managers
                 audioSource.Play();
             else 
                 audioSource.PlayDelayed(soundData.Delay);
+            
+            var playProcessData = AddToPlayProcesses(audioSource, soundData);
+            
+            if (onFinished != null) _ = ReturnToPoolAfterPlayback(audioSource, playProcessData.Id, onFinished);
 
-            if (onFinished != null) _ = ReturnToPoolAfterPlayback(audioSource, onFinished);
+            return playProcessData;
         }
 
         private void PreparingAudioSource(AudioSource audioSource, SoundData soundData)
@@ -113,6 +132,16 @@ namespace SoundFlowSystem.Managers
             audioSource.maxDistance = soundData.MaxDistance;
         }
 
+        private PlayProcessData AddToPlayProcesses(AudioSource audioSource, SoundData soundData)
+        {
+            var playProcessId = Guid.NewGuid().ToString();
+            var playProcessData = new PlayProcessData(playProcessId, soundData, audioSource);
+            
+            _playProcesses.Add(playProcessId, playProcessData);
+
+            return playProcessData;
+        }
+        
         private AudioClip GetClip(SoundData soundData)
         {
             return soundData.IsRandom ? soundData.Clips.PickRandom() : soundData.Clips[0];
@@ -137,9 +166,12 @@ namespace SoundFlowSystem.Managers
             return true;
         }
         
-        private async UniTask ReturnToPoolAfterPlayback(AudioSource audioSource, Action onFinished)
+        private async UniTask ReturnToPoolAfterPlayback(AudioSource audioSource, string playProcessId, Action onFinished)
         {
             await UniTask.WaitWhile(() => audioSource.isPlaying);
+
+            Stop(playProcessId);
+            
             onFinished?.Invoke();
         }
     }

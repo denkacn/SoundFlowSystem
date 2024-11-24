@@ -8,7 +8,7 @@ namespace SoundFlowSystem.Libraries
 {
     public static class SoundsCollectionConstantGenerator
     {
-        public static void GenerateClassFile(SoundData[] soundsData)
+        public static void GenerateClassFile(string path, SoundData[] soundsData)
         {
             var sb = new StringBuilder();
             
@@ -27,9 +27,9 @@ namespace SoundFlowSystem.Libraries
             sb.AppendLine("    }");
             sb.AppendLine("}");
             
-            File.WriteAllText(Application.dataPath + "/Pray4Us/Scripts/App/SoundFlowSystem/Libraries/SoundsCollectionConstants.cs", sb.ToString());
+            File.WriteAllText(Application.dataPath + path + "SoundsCollectionConstants.cs", sb.ToString());
         }
-        
+        // /Pray4Us/Scripts/App/SoundFlowSystem/Libraries/
         private static string ConvertToPascalCase(string input)
         {
             var parts = input.Split('_');
