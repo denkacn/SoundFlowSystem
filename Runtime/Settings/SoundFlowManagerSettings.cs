@@ -1,5 +1,6 @@
 using SoundFlowSystem.Libraries;
 using SoundFlowSystem.Network;
+using SoundFlowSystem.Rules.Checkers;
 using UnityEngine;
 
 namespace SoundFlowSystem.Settings
@@ -9,5 +10,6 @@ namespace SoundFlowSystem.Settings
         public SoundsCollection[] SoundsCollections;
         public AudioSource BaseAudioSource;
         public BaseNetworkAudioSynchronizer NetworkSynchronizer;
+        public IPlayConditionChecker[] ConditionCheckers;
     }
 }

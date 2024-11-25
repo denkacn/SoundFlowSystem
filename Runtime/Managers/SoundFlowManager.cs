@@ -23,6 +23,10 @@ namespace SoundFlowSystem.Managers
         public SoundFlowManager(SoundFlowManagerSettings soundFlowManagerSettings)
         {
             _rulesFactory = new RulesFactory();
+            foreach (var conditionChecker in soundFlowManagerSettings.ConditionCheckers)
+            {
+                _rulesFactory.Add(conditionChecker.GetType(), conditionChecker);
+            }
             
             _audioSourcePools.Add(new BaseAudioSourcePool(soundFlowManagerSettings.BaseAudioSource));
 
