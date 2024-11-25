@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SoundFlowSystem.Libraries;
 using SoundFlowSystem.Network;
 using SoundFlowSystem.Rules.Checkers;
@@ -10,6 +11,11 @@ namespace SoundFlowSystem.Settings
         public SoundsCollection[] SoundsCollections;
         public AudioSource BaseAudioSource;
         public BaseNetworkAudioSynchronizer NetworkSynchronizer;
-        public IPlayConditionChecker[] ConditionCheckers;
+        public List<IPlayConditionChecker> ConditionCheckers;
+
+        public void AddConditionChecker(IPlayConditionChecker checker)
+        {
+            ConditionCheckers.Add(checker);
+        }
     }
 }
