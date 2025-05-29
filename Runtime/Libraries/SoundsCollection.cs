@@ -12,11 +12,11 @@ namespace SoundFlowSystem.Libraries
         public SoundData[] Get() => _soundsData;
 
         [SerializeField] private string _pathToSave;
-        
+        [SerializeField] private string _prefix;
         [Button]
         private void GenerateConstant()
         {
-            SoundsCollectionConstantGenerator.GenerateClassFile(_pathToSave, _soundsData);
+            SoundsCollectionConstantGenerator.GenerateClassFile(_pathToSave, _prefix, _soundsData);
         }
     }
 }
