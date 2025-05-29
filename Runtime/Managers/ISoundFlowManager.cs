@@ -1,5 +1,6 @@
 using System;
 using SoundFlowSystem.Data;
+using SoundFlowSystem.Network;
 using UnityEngine;
 
 namespace SoundFlowSystem.Managers
@@ -12,5 +13,6 @@ namespace SoundFlowSystem.Managers
         AudioSource Create();
         void PlayNetwork(string soundKey);
         void PlayNetworkInPosition(string soundKey, Vector3 position);
+        void SetNetworkSynchronizer(BaseNetworkAudioSynchronizer networkAudioSynchronizer);
     }
 }

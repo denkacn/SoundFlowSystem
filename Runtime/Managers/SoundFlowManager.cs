@@ -17,8 +17,9 @@ namespace SoundFlowSystem.Managers
         private readonly Dictionary<string, SoundData> _soundsLibrary = new Dictionary<string, SoundData>();
         private readonly Dictionary<string, PlayProcessData> _playProcesses = new Dictionary<string, PlayProcessData>();
         private readonly bool _isInitialized = false;
-        private readonly BaseNetworkAudioSynchronizer _networkAudioSynchronizer;
         private readonly IRulesFactory _rulesFactory;
+        
+        private BaseNetworkAudioSynchronizer _networkAudioSynchronizer;
         
         public SoundFlowManager(SoundFlowManagerSettings soundFlowManagerSettings)
         {
@@ -30,8 +31,7 @@ namespace SoundFlowSystem.Managers
             
             _audioSourcePools.Add(new BaseAudioSourcePool(soundFlowManagerSettings.BaseAudioSource));
 
-            _networkAudioSynchronizer = soundFlowManagerSettings.NetworkSynchronizer;
-            _networkAudioSynchronizer.Init(this);
+            SetNetworkSynchronizer(soundFlowManagerSettings.NetworkSynchronizer);
             
             foreach (var collection in soundFlowManagerSettings.SoundsCollections)
             {
@@ -77,14 +77,23 @@ namespace SoundFlowSystem.Managers
         
         public void PlayNetwork(string soundKey)
         {
-            _networkAudioSynchronizer.PlayNetwork(soundKey, Vector3.zero);
+            _networkAudioSynchronizer?.PlayNetwork(soundKey, Vector3.zero);
         }
 
         public void PlayNetworkInPosition(string soundKey, Vector3 position)
         {
-            _networkAudioSynchronizer.PlayNetwork(soundKey, position);
+            _networkAudioSynchronizer?.PlayNetwork(soundKey, position);
         }
 
+        public void SetNetworkSynchronizer(BaseNetworkAudioSynchronizer networkAudioSynchronizer)
+        {
+            if (networkAudioSynchronizer != null)
+            {
+                _networkAudioSynchronizer = networkAudioSynchronizer;
+                _networkAudioSynchronizer.Init(this);
+            }
+        }
+        
         private PlayProcessData PlayIt(string soundKey, Vector3 position, AudioSource audioSource, Action onFinished, bool isOverwriteSettings)
         {
             var soundData = GetSoundData(soundKey);
