@@ -4,7 +4,7 @@
   "version": "1.0.20",
   "unity": "2022.1",
   "author": "Denis Puzik",
-  "description": "Unity Sound Flow System. Attention!!! Works only with Unitask and Odin Inspector",
+  "description": "Unity Sound Flow System with pooled audio playback. Requires Odin Inspector.",
   "dependencies": {
   },
   "repository": {

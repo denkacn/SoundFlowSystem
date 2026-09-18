@@ -11,13 +11,17 @@ namespace SoundFlowSystem.Rules.Factories
 
         public void Add(Type rulesType, IPlayConditionChecker checker)
         {
-            _rules.Add(rulesType, checker);
+            if (rulesType == null) throw new ArgumentNullException(nameof(rulesType));
+            if (!typeof(IPlayCondition).IsAssignableFrom(rulesType))
+                throw new ArgumentException("The type must implement IPlayCondition.", nameof(rulesType));
+            if (checker == null) throw new ArgumentNullException(nameof(checker));
+            _rules[rulesType] = checker;
         }
         
         public IPlayConditionChecker Get(IPlayCondition playCondition)
         {
-            var cType = playCondition.GetType();
-            return _rules.GetValueOrDefault(cType);
+            if (playCondition == null) return null;
+            return _rules.TryGetValue(playCondition.GetType(), out var checker) ? checker : null;
         }
     }
 }

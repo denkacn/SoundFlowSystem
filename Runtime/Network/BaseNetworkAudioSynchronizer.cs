@@ -12,6 +12,11 @@ namespace SoundFlowSystem.Network
             _soundFlowManager = soundFlowManager;
         }
         
+        public virtual void Detach(ISoundFlowManager soundFlowManager)
+        {
+            if (ReferenceEquals(_soundFlowManager, soundFlowManager)) _soundFlowManager = null;
+        }
+
         public abstract void PlayNetwork(string soundKey, Vector3 inPosition);
     }
 }

@@ -12,7 +12,7 @@ namespace SoundFlowSystem.Data
         public string Key;
         [FoldoutGroup("Settings")] public string PoolId = SoundFlowConstantsData.DefaultPoolId;
         
-        [FoldoutGroup("Settings")] public AudioClip[] Clips;
+        [FoldoutGroup("Settings")] public AudioClip[] Clips = Array.Empty<AudioClip>();
         
         [FoldoutGroup("Settings")] public bool IsLoop = false;
         [FoldoutGroup("Settings")] public bool IsRandom = false;
@@ -36,6 +36,6 @@ namespace SoundFlowSystem.Data
         [ShowIf("@this.SpatialBlend > 0")]
         [FoldoutGroup("3D")] public float MaxDistance = 5f;
 
-        [SerializeReference] public IPlayCondition[] Conditions;
+        [SerializeReference] public IPlayCondition[] Conditions = Array.Empty<IPlayCondition>();
     }
 }

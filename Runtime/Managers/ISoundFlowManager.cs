@@ -5,11 +5,15 @@ using UnityEngine;
 
 namespace SoundFlowSystem.Managers
 {
-    public interface ISoundFlowManager
+    public interface ISoundFlowManager : IDisposable
     {
+        int ActivePlaybackCount { get; }
         PlayProcessData Play(string soundKey, AudioSource audioSource = null, Action onFinished = null, bool isOverwriteSettings = true);
         PlayProcessData PlayInPosition(string soundKey, Vector3 position, AudioSource audioSource = null, Action onFinished = null, bool isOverwriteSettings = true);
         void Stop(string playProcessId);
+        void StopAll();
+        void Pause(string playProcessId);
+        void Resume(string playProcessId);
         AudioSource Create();
         void PlayNetwork(string soundKey);
         void PlayNetworkInPosition(string soundKey, Vector3 position);

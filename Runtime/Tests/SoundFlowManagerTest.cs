@@ -16,16 +16,18 @@ namespace SoundFlowSystem.Tests
             _soundFlowManager = new SoundFlowManager(_settings);
         }
 
+        private void OnDestroy() => _soundFlowManager?.Dispose();
+
         [Button]
         private void TestPlaySound()
         {
-            _soundFlowManager.Play("test_sfx_play");
+            _soundFlowManager?.Play("test_sfx_play");
         }
         
         [Button]
         private void TestPlaySoundInPosition()
         {
-            _soundFlowManager.PlayInPosition("test_sfx_play", new Vector3(10, 10, 10));
+            _soundFlowManager?.PlayInPosition("test_sfx_play", new Vector3(10, 10, 10));
         }
     }
 }

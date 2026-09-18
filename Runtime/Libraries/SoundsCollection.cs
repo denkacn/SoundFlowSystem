@@ -9,7 +9,7 @@ namespace SoundFlowSystem.Libraries
     {
         [Searchable] [SerializeField] private SoundData[] _soundsData;
 
-        public SoundData[] Get() => _soundsData;
+        public SoundData[] Get() => _soundsData ?? System.Array.Empty<SoundData>();
 
         [SerializeField] private string _pathToSave;
         [SerializeField] private string _prefix;
